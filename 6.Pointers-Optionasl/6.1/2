@@ -1,0 +1,38 @@
+const std = @import("std");
+const stdout = std.io.getStdOut().writer();
+
+const User = struct {
+    id: u64,
+    name: []const u8,
+    email: []const u8,
+
+    pub fn init(id: u64,
+                name: []const u8,
+                email: []const u8) User {
+
+        return User {
+            .id = id,
+            .name = name,
+            .email = email
+        };
+    }
+
+    pub fn print_name(self: User) !void {
+        try stdout.print("{s}\n", .{self.name});
+    }
+
+}; 
+
+pub fn main() !void {
+    var number: u8 = 5;
+    var pointer = &number;
+    pointer.* = pointer.* + 5;
+    pointer = pointer << 2;
+    const double = pointer.* * 2;
+    try stdout.print("{d}", .{double});
+    
+    // const u = User.init(1, "dame", "d.lulakov@gmail.com");
+    // const pointer = &u;
+    // try pointer.*.print_name();
+
+}
