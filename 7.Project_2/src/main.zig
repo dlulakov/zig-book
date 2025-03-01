@@ -1,6 +1,7 @@
 const std = @import("std");
 const SocketConf = @import("config.zig");
 const Request = @import("request.zig");
+const Response = @import("response.zig");
 const stdout = std.io.getStdOut().writer();
 
 const Map = std.static_string_map.StaticStringMap;
@@ -37,10 +38,24 @@ pub fn main() !void {
     try stdout.print("Server Addr: {any}\n", .{socket._address});
     var server = try socket._address.listen(.{});
     const conneciton = try server.accept();
+
     var buffer: [1000]u8 = undefined;
     for (0..buffer.len) |i| {
         buffer[i] = 0;
     }
-    _ = try Request.read_request(conneciton, buffer[0..buffer.len]);
-    try stdout.print("{s}\n", .{buffer});
+
+    //Reading and Parsing the request
+    try Request.read_request(conneciton, buffer[0..buffer.len]);
+    const requst = Request.parse_request(buffer[0..buffer.len]);
+    try stdout.print("{any}\n", .{requst});
+
+    // Creating and returning the response
+    if (requst.method == Method.GET) {
+        if (std.mem.eql(u8, requst.uri, "/")) {
+            try Response.send200(conneciton);
+        }else {
+            try Response.send_404(conneciton);
+        }
+    }
+
 }
