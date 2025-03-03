@@ -7,7 +7,7 @@
 ## Requirements
 1. The zig compiler, that can be download from [here](https://ziglang.org/download/).
 2. Browser.
-## Start the server
+## Start the HTTP server
 1. Run the command: `zig run src/main.zig` in your terminal.
 2. Open your browser.
 3. Got to `localhost:3490`
