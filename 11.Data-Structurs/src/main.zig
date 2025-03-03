@@ -92,19 +92,33 @@ pub fn main() !void {
     // }
 
     // 11.2.4
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    const allocator = gpa.allocator();
-    var ages = std.StringHashMap(u8).init(allocator);
-    defer ages.deinit();
-    
-    try ages.put("Pedro", 25);
-    try ages.put("Matheus", 21);
-    try ages.put("Abgail", 42);
-    
-    var it = ages.iterator();
-    while (it.next()) |kv| {
-        std.debug.print("Key: {s} | ", .{kv.key_ptr.*});
-        std.debug.print("Value: {d}\n", .{kv.value_ptr.*});
-    }
+    // var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    // const allocator = gpa.allocator();
+    // var ages = std.StringHashMap(u8).init(allocator);
+    // defer ages.deinit();
+    // 
+    // try ages.put("Pedro", 25);
+    // try ages.put("Matheus", 21);
+    // try ages.put("Abgail", 42);
+    // 
+    // var it = ages.iterator();
+    // while (it.next()) |kv| {
+    //     std.debug.print("Key: {s} | ", .{kv.key_ptr.*});
+    //     std.debug.print("Value: {d}\n", .{kv.value_ptr.*});
+    // }
+
+    const SingleLinkedList = std.SinglyLinkedList;
+    const Lu32 = SingleLinkedList(u32);
+    var list = Lu32{};
+    var one = Lu32.Node{.data = 1};
+    var two = Lu32.Node{.data = 2};
+    var three = Lu32.Node{.data = 3};
+    var four = Lu32.Node{.data = 4};
+    var five = Lu32.Node{.data = 5};
+    list.prepend(&two);
+    two.insertAfter(&five);
+    list.prepend(&one);
+    two.insertAfter(&three);
+    three.insertAfter(&four);
 
 }
